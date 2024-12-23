@@ -5,6 +5,7 @@
 }
 
 body{
+    overflow: hidden;
     display: flex;
     background: linear-gradient(to bottom, rgba(135,206,235,1) 0%, rgba(255,255,255,1) 100%);
     height: 100vh;
@@ -73,3 +74,10 @@ body{
         transform: rotate(360deg);
     }
 } 
+
+@keyframes remove_ice{
+    to{
+        transform: translateY(100px) ;
+        opacity: 0;
+    }
+}

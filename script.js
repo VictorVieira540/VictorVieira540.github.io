@@ -23,7 +23,8 @@ function fall() {
   flakes.forEach((flake) => {
     flake.style.top = parseInt(flake.style.top) + 1 + "px";
     flake.style.opacity = 1 - (parseInt(flake.style.top) / window.innerHeight);
-    if (parseInt(flake.style.top) > window.innerHeight) {
+    
+    if (flake.offsetTop > window.innerHeight) {
       flakes.splice(flakes.indexOf(flake), 1);
       flake.remove();
 
@@ -40,19 +41,25 @@ let minimum = 3
 let image  = 2
 
 document.getElementById("ice").addEventListener("click", function () {
+
+  if(image<=5){
   // Adiciona diretamente a animação ao estilo inline
   this.style.animation = "focus 0.5s linear";
   cliques++;
 
-  if(cliques>5){
-    this.src = "/images/ice-5.png"
-  }
+  imaget(cliques);
 
   // Remove a animação ao final para poder reutilizar
   this.addEventListener("animationend", () => {
     this.style.animation = "";
     imaget(cliques);
   });
+}else{
+  this.style.animation = "remove_ice 1s linear";
+  setTimeout(() => {
+    this.remove();
+  }, 1000);
+}
 });
 
 function imaget(cliques){
