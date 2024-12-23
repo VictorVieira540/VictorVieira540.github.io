@@ -53,5 +53,5 @@ document.getElementById("ice").addEventListener("click", function () {
 
 
 document.getElementById("ice").addEventListener("mouseover", function () {
-  this.src = "/images/ice-crash.png";
+  this.src = "/images/ice-5.png";
 });
