@@ -36,14 +36,15 @@ function fall() {
 const falll = setInterval(()=>{fall()}, 1000/100);
 const add = setInterval(()=>{add_flake()}, 1000);
 let cliques = 0;
+let minimum = 3
 let image  = 2
+
 document.getElementById("ice").addEventListener("click", function () {
   // Adiciona diretamente a animação ao estilo inline
   this.style.animation = "focus 0.5s linear";
   cliques++;
-  if(cliques>5){
-    document.getElementsByClassName("text")[0].innerHTML = "Um dia quebra kkk";
-  }
+
+  image(cliques);
 
   // Remove a animação ao final para poder reutilizar
   this.addEventListener("animationend", () => {
@@ -51,7 +52,10 @@ document.getElementById("ice").addEventListener("click", function () {
   });
 });
 
-
-document.getElementById("ice").addEventListener("mouseover", function () {
-  this.src = "/images/ice-5.png";
-});
+function image(cliques){
+  if(cliques >= minimum){
+    document.getElementById("ice").src = `/images/ice-${image}.png`;
+    image++;
+    minimum += 3;
+  }
+}
