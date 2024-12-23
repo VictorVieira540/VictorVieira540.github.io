@@ -44,7 +44,9 @@ document.getElementById("ice").addEventListener("click", function () {
   this.style.animation = "focus 0.5s linear";
   cliques++;
 
-  image(cliques);
+  if(cliques>5){
+    this.src = "/images/ice-5.png"
+  }
 
   // Remove a animação ao final para poder reutilizar
   this.addEventListener("animationend", () => {
