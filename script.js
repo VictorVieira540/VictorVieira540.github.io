@@ -53,7 +53,7 @@ document.getElementById("ice").addEventListener("click", function () {
 });
 
 function image(cliques){
-  if(cliques >= minimum){
+  if(cliques >= minimum && image <= 5){ 
     document.getElementById("ice").src = `/images/ice-${image}.png`;
     image++;
     minimum += 3;
