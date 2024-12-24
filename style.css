@@ -127,7 +127,8 @@ body{
 
 .happy span {
     background: linear-gradient(to left, rgb(255, 215, 0), rgb(255, 223, 100));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    
+    -webkit-background-clip: text;  /* Para Safari */
+    background-clip: text;          /* Propriedade padrão */
+    -webkit-text-fill-color: transparent; /* Para Safari */
+    text-fill-color: transparent;   /* Propriedade padrão */
 }
