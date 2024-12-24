@@ -106,8 +106,8 @@ function feliz_natal(){
   const span1 = document.createElement("span");
   const span2 = document.createElement("span");
 
-  span1.innerHTML = "Feliz";
-  span2.innerHTML = "Natal";
+  span1.innerHTML = "Feliz✨";
+  span2.innerHTML = "✨Natal.";
 
   div.classList.add("happy");
   div.classList.add("text");
