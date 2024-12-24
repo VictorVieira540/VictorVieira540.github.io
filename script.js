@@ -41,8 +41,6 @@ let minimum = 3
 let image  = 2
 
 document.getElementById("ice").addEventListener("click", function () {
-
-  if(image<=5){
   // Adiciona diretamente a animação ao estilo inline
   this.style.animation = "focus 0.5s linear";
   cliques++;
@@ -54,25 +52,48 @@ document.getElementById("ice").addEventListener("click", function () {
     this.style.animation = "";
     imaget(cliques);
   });
-}else{
-  this.style.animation = "remove_ice 1s linear";
-  document.getElementById("text").style.animation = "remove_ice 1s linear";
-  setTimeout(() => {
-    this.remove();
-    document.getElementById("text").remove();
-    itstime();
-  }, 990);
-}
 });
 
 function imaget(cliques){
-  if(cliques >= minimum && image <= 5){ 
+  if(cliques >= minimum && image <= 4){ 
     document.getElementById("ice").src = `/images/ice-${image}.png`;
     image++;
     minimum += 3;
+  }else if(image == 5){
+    remove_ice();
+    image++;
   }
+}
+
+async function remove_ice(){
+  const audio = new Audio("/audios/its time.mp3");
+  audio.play();
+
+  await new Promise(resolve => setTimeout(resolve, 500));
+
+  const ice = document.getElementById("ice");
+  ice.src = `/images/ice-5.png`;
+  
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  ice.style.animation = "remove_ice 1s linear";
+  document.getElementById("text").style.animation = "remove_ice 1s linear";
+
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+    ice.remove();
+    document.getElementById("text").remove();
+  await new Promise(resolve => setTimeout(resolve, 500));
+    itstime();
+
 }
 
 function itstime(){
   const div = document.createElement("div");
+  div.id = "its";
+  div.classList.add("text");
+  div.style.top = "100px"
+  div.innerHTML = "It's time";
+  div.style.animation = "its 1s linear";
+  document.body.appendChild(div);
 }
