@@ -56,9 +56,12 @@ document.getElementById("ice").addEventListener("click", function () {
   });
 }else{
   this.style.animation = "remove_ice 1s linear";
+  document.getElementById("text").style.animation = "remove_ice 1s linear";
   setTimeout(() => {
     this.remove();
-  }, 1000);
+    document.getElementById("text").remove();
+    itstime();
+  }, 990);
 }
 });
 
@@ -68,4 +71,8 @@ function imaget(cliques){
     image++;
     minimum += 3;
   }
+}
+
+function itstime(){
+  const div = document.createElement("div");
 }
