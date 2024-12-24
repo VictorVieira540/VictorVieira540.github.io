@@ -62,10 +62,14 @@ body{
 .text{
     position: absolute;
     font-family: 'Great Vibes', cursive;
-    top: 10px;
     font-size: 50px;
     color: white;
     z-index: 2;
+}
+
+
+#text{
+    top: 10px;
 }
 
 @keyframes its{
@@ -103,13 +107,27 @@ body{
     }
 }
 
-.happy{
-    width: 600px;
-    height: 600px;
+.happy {
+    width: 100%;
+    height: auto; /* Ajusta a altura automaticamente com base no conteúdo */
+    min-height: 60%; /* Garante um mínimo de altura */
     border-radius: 20px;
     opacity: 1;
-    background: linear-gradient(to bottom, rgb(5, 181, 194) 0%, rgb(158, 221, 236) 100%);
+    background: linear-gradient(to bottom, rgb(3, 133, 35) 0%, rgb(6, 83, 102) 100%);
     z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 70px;
+    color: transparent;
+    position: relative;
+    overflow: visible; /* Garante que o conteúdo não seja cortado */
 }
 
-
+.happy span {
+    background: linear-gradient(to left, rgb(255, 215, 0), rgb(255, 223, 100));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+}

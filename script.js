@@ -100,9 +100,20 @@ function itstime(){
 }
 
 function feliz_natal(){
-  const div = document.createElement("div");
-  div.classList.add("happy");
-  div.style.animation = "haps 1s linear";
-  document.body.appendChild(div);
+ document.getElementById("its").remove();
 
+  const div = document.createElement("div");
+  const span1 = document.createElement("span");
+  const span2 = document.createElement("span");
+
+  span1.innerHTML = "Feliz";
+  span2.innerHTML = "Natal";
+
+  div.classList.add("happy");
+  div.classList.add("text");
+  div.style.animation = "haps 2s linear";
+
+  document.body.appendChild(div);
+  div.appendChild(span1);
+  div.appendChild(span2);
 }
