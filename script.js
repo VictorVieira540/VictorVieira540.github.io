@@ -69,7 +69,7 @@ async function remove_ice(){
   const audio = new Audio("/audios/its time.mp3");
   audio.play();
 
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise(resolve => setTimeout(resolve, 1650));
 
   const ice = document.getElementById("ice");
   ice.src = `/images/ice-5.png`;
@@ -80,11 +80,12 @@ async function remove_ice(){
   document.getElementById("text").style.animation = "remove_ice 1s linear";
 
   await new Promise(resolve => setTimeout(resolve, 1000));
-
     ice.remove();
     document.getElementById("text").remove();
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise(resolve => setTimeout(resolve, 100));
     itstime();
+  await new Promise(resolve => setTimeout(resolve, 3000));  
+    feliz_natal();
 
 }
 
@@ -96,4 +97,12 @@ function itstime(){
   div.innerHTML = "It's time";
   div.style.animation = "its 1s linear";
   document.body.appendChild(div);
+}
+
+function feliz_natal(){
+  const div = document.createElement("div");
+  div.classList.add("happy");
+  div.style.animation = "haps 1s linear";
+  document.body.appendChild(div);
+
 }
