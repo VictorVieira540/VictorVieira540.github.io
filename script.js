@@ -1,119 +1,124 @@
-
-const flakes = [];
-
-function new_flake() {
-  const snowflake = document.createElement("div");
-  snowflake.classList.add("snow-flake");
-  const size = 20 + Math.random() * 80;
-  snowflake.style.width = size + "px";
-  snowflake.style.height = size + "px";
-  snowflake.style.left = Math.max(0, Math.random() * (window.innerWidth - size)) + "px";
-  snowflake.style.top = -size + 10 + "px";
-  snowflake.style.opacity = 1;
-  return snowflake;
-}
-
-function add_flake() {
-  if(flakes.length<5){
-    flakes.push(new_flake());
-    document.body.appendChild(flakes[flakes.length - 1]);
-}}
-
-function fall() {
-  flakes.forEach((flake) => {
-    flake.style.top = parseInt(flake.style.top) + 1 + "px";
-    flake.style.opacity = 1 - (parseInt(flake.style.top) / window.innerHeight);
-    
-    if (flake.offsetTop > window.innerHeight) {
-      flakes.splice(flakes.indexOf(flake), 1);
-      flake.remove();
-
-    }
-  });
-}
+const canvas = document.getElementById('canvas');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const ctx = canvas.getContext('2d');
 
 
-
-const falll = setInterval(()=>{fall()}, 1000/100);
-const add = setInterval(()=>{add_flake()}, 1000);
-let cliques = 0;
-let minimum = 3
-let image  = 2
-
-document.getElementById("ice").addEventListener("click", function () {
-  // Adiciona diretamente a animação ao estilo inline
-  this.style.animation = "focus 0.5s linear";
-  cliques++;
-
-  imaget(cliques);
-
-  // Remove a animação ao final para poder reutilizar
-  this.addEventListener("animationend", () => {
-    this.style.animation = "";
-    imaget(cliques);
-  });
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 });
 
-function imaget(cliques){
-  if(cliques >= minimum && image <= 4){ 
-    document.getElementById("ice").src = `/images/ice-${image}.png`;
-    image++;
-    minimum += 3;
-  }else if(image == 5){
-    remove_ice();
-    image++;
-  }
+const fireworks = [];
+const particles = [];
+const gravity = 0.175;
+const color = () => Math.floor(Math.random() * 255);
+
+function new_firework(x = window.innerWidth / 2) {
+    let firework = {
+        x: x,
+        y: window.innerHeight - 10,
+        vy: 10 + Math.random() * 5,
+        vx: -3 + Math.random() * 6,
+        color: color() + ',' + color() + ',' + color(),
+        lifetime: 70 + Math.round(Math.random() * 70),
+        trail: [],
+        size: 3
+    };
+
+    fireworks.push(firework);
 }
 
-async function remove_ice(){
-  const audio = new Audio("/audios/its time.mp3");
-  audio.play();
-
-  await new Promise(resolve => setTimeout(resolve, 1650));
-
-  const ice = document.getElementById("ice");
-  ice.src = `/images/ice-5.png`;
-  
-  await new Promise(resolve => setTimeout(resolve, 1000));
-
-  ice.style.animation = "remove_ice 1s linear";
-  document.getElementById("text").style.animation = "remove_ice 1s linear";
-
-  await new Promise(resolve => setTimeout(resolve, 1000));
-    ice.remove();
-    document.getElementById("text").remove();
-  await new Promise(resolve => setTimeout(resolve, 100));
-    itstime();
-  await new Promise(resolve => setTimeout(resolve, 3000));  
-    feliz_natal();
-
+function createExplosion(x, y, color) {
+    const particleCount = 200; 
+    for (let i = 0; i < particleCount; i++) {
+        const angle = Math.random() * Math.PI * 2; 
+        const speed = Math.random() * 3 + 1;
+        particles.push({
+            x: x,
+            y: y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            color: color,
+            lifetime: 70, 
+            size: 3 + Math.random() * 2 
+        });
+    }
 }
 
-function itstime(){
-  const div = document.createElement("div");
-  div.id = "its";
-  div.classList.add("text");
-  div.style.top = "100px"
-  div.innerHTML = "It's time";
-  div.style.animation = "its 1s linear";
-  document.body.appendChild(div);
+function display() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    fireworks.forEach((firework) => {
+        ctx.beginPath();
+        ctx.arc(firework.x, firework.y, firework.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgb(' + firework.color + ')';
+        ctx.fill();
+        ctx.closePath();
+        trail(firework);
+    });
+
+    particles.forEach((particle) => {
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${particle.color}, ${particle.lifetime / 50})`; // Opacidade baseada no tempo de vida
+        ctx.fill();
+        ctx.closePath();
+    });
+
+    function trail(firework) {
+        const trail = firework.trail;
+
+        trail.forEach((point, i) => {
+            const opacity = (i + 1) / trail.length;
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, firework.size / 1.7, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${firework.color}, ${opacity})`;
+            ctx.fill();
+            ctx.closePath();
+        });
+    }
 }
 
-function feliz_natal(){
- document.getElementById("its").remove();
+function update() {
+    fireworks.forEach((firework, index) => {
+        firework.trail.push({ x: firework.x, y: firework.y });
+        firework.y -= firework.vy;
+        firework.x += firework.vx;
+        firework.vy -= gravity;
 
-  const div = document.createElement("div");
-  const span1 = document.createElement("span");
-  const span2 = document.createElement("span");
+        if (firework.trail.length > 5) {
+            firework.trail.shift();
+        }
 
-  span1.innerHTML = "Feliz✨";
-  span2.innerHTML = "✨Natal.";
+        firework.lifetime--;
+        if (firework.lifetime <= 0 || firework.vy <= -2) {
+            const fireworkSound = new Audio('fogos.mp3').play();
+            createExplosion(firework.x, firework.y, firework.color);
+            fireworks.splice(index, 1);
+        }
+    });
 
-  div.classList.add("happy");
-  div.classList.add("text");
-  div.style.animation = "haps 2s linear";
+    particles.forEach((particle, index) => {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.vy += gravity / 2; 
+        particle.size *= 0.96; 
+        particle.lifetime--;
 
-  document.body.appendChild(div);
-  div.appendChild(span1);
-  div.appendChild(span2);
+        if (particle.lifetime <= 0) {
+            particles.splice(index, 1); 
+        }
+    });
 }
+
+function animate() {
+    display();
+    update();
+    requestAnimationFrame(animate);
+}
+animate();
+
+window.addEventListener('click', () => {
+    new_firework();
+});
