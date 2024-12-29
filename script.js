@@ -18,8 +18,8 @@ function new_firework(x = window.innerWidth / 2) {
     let firework = {
         x: x,
         y: window.innerHeight - 10,
-        vy: 10 + Math.random() * 5,
-        vx: -3 + Math.random() * 6,
+        vy: 12 + Math.random() * 3,
+        vx: -2 + Math.random() * 4,
         color: color() + ',' + color() + ',' + color(),
         lifetime: 70 + Math.round(Math.random() * 70),
         trail: [],
@@ -30,7 +30,7 @@ function new_firework(x = window.innerWidth / 2) {
 }
 
 function createExplosion(x, y, color) {
-    const particleCount = 200; 
+    const particleCount = 100; 
     for (let i = 0; i < particleCount; i++) {
         const angle = Math.random() * Math.PI * 2; 
         const speed = Math.random() * 3 + 1;
@@ -40,7 +40,7 @@ function createExplosion(x, y, color) {
             vx: Math.cos(angle) * speed,
             vy: Math.sin(angle) * speed,
             color: color,
-            lifetime: 70, 
+            lifetime: 50, 
             size: 3 + Math.random() * 2 
         });
     }
@@ -120,5 +120,5 @@ function animate() {
 animate();
 
 window.addEventListener('click', () => {
-    new_firework();
+    new_firework((canvas.width / 2)-100 + (Math.random() * 200));
 });
