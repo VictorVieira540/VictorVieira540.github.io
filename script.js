@@ -166,5 +166,6 @@ function animate() {
     update();
 
     requestAnimationFrame(animate);
-
 }
+
+show();
