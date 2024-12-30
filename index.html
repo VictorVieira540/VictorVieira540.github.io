@@ -95,7 +95,7 @@
         .legenda:nth-child(3) {
             text-align: start;
         }
-        
+
         @media (min-width: 768px) {
             #falta {
                 font-size: 2.5rem;
@@ -116,6 +116,12 @@
                 font-size: 1.2rem;
             }
         }
+
+        @media (max-width: 1080px) {
+            section{
+                transform: scale(1.5);
+            }
+        }
     </style>
 </head>
 <body>
@@ -131,7 +137,7 @@
                 <span class="legenda">segundos</span>
             </div>
         </div>
-        <div id="ano">para 2025</div>
+        <div id="ano">para 2025 </div>
     </section>
     <script src="conometro.js"></script>
     <script src="script.js"></script>
