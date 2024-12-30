@@ -14,27 +14,40 @@ const particles = [];
 const gravity = 0.175;
 const color = () => Math.floor(Math.random() * 255) + ','+ Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255);
 
-function new_firework(x = window.innerWidth / 2, cor = null) { 
+function new_firework(x = window.innerWidth / 2, cor = null) {
     let firework = {
-        x: x,
-        y: window.innerHeight - 10,
-        vy: 12 + Math.random() * 3,
-        vx: -2 + Math.random() * 4,
-        color: cor ? cor : color(), // Usa 'cor' se fornecido, senão gera uma cor aleatória
-        lifetime: 70,
-        trail: [],
-        size: 3
+      x: x,
+      y: window.innerHeight - 10, // Ponto de partida do fogo de artifício
+      vy: 12 + Math.random() * 3,
+      vx: -2 + Math.random() * 4,
+      color: cor ? cor : color(), // Usa 'cor' se fornecido, senão gera uma cor aleatória
+      lifetime: 70,
+      trail: [],
+      size: 3
     };
-
+  
+    // Ajuste para telas altas (como 2340px):
+    // O objetivo é fazer o fogo de artifício explodir mais alto na tela.
+    // Vamos reduzir a velocidade vertical inicial (vy) e aumentar o lifetime
+    // Isso fará o fogo de artifício subir mais lentamente e por mais tempo, 
+    // alcançando uma altura maior antes de explodir.
+  
+    if (window.innerHeight >= 2340) {
+      firework.vy = 20 + Math.random() * 8; // Reduz a velocidade vertical
+      firework.lifetime = 100 + Math.random() * 100; // Aumenta o tempo de vida (ajuste conforme necessário)
+      firework.size = 5 + Math.random() * 5;
+    }
+  
     fireworks.push(firework);
-}
+  }
 
 function createExplosion(x, y, color) {
-    const particleCount = 200; 
+
+    const particleCount = 100; 
     for (let i = 0; i < particleCount; i++) {
         const angle = Math.random() * Math.PI * 2; 
         const speed = Math.random() * 3 + 1;
-        particles.push({
+        let particle = {
             x: x,
             y: y,
             vx: Math.cos(angle) * speed,
@@ -42,7 +55,16 @@ function createExplosion(x, y, color) {
             color: color,
             lifetime: 10 + Math.round(Math.random() * 50), 
             size: 3 + Math.random() * 2
-        });
+        }
+
+        if (window.innerHeight >= 2340) {
+            particle.size = 5 + Math.random() * 10;
+            particle.lifetime = 20 + Math.random() * 100;
+        }
+
+        particles.push(particle);
+
+
     }
 }
 
@@ -139,7 +161,10 @@ function show() {
   }
 
 function animate() {
+
     display();
     update();
+
     requestAnimationFrame(animate);
+
 }
