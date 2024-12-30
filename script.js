@@ -11,7 +11,7 @@ window.addEventListener('resize', () => {
 
 const fireworks = [];
 const particles = [];
-const gravity = 0.175;
+const gravity = 0.075;
 const color = () => Math.floor(Math.random() * 255) + ','+ Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255);
 
 function new_firework(x = window.innerWidth / 2, cor = null) {
@@ -34,7 +34,7 @@ function new_firework(x = window.innerWidth / 2, cor = null) {
   
     if (window.innerHeight >= 2340) {
       firework.vy = 20 + Math.random() * 8; // Reduz a velocidade vertical
-      firework.lifetime = 200 + Math.random() * 100; // Aumenta o tempo de vida (ajuste conforme necessário)
+      firework.lifetime = 100 + Math.random() * 100; // Aumenta o tempo de vida (ajuste conforme necessário)
       firework.size = 5 + Math.random() * 5;
     }
   
