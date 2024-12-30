@@ -12,16 +12,16 @@ window.addEventListener('resize', () => {
 const fireworks = [];
 const particles = [];
 const gravity = 0.175;
-const color = () => Math.floor(Math.random() * 255);
+const color = () => Math.floor(Math.random() * 255) + ','+ Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255);
 
-function new_firework(x = window.innerWidth / 2) {
+function new_firework(x = window.innerWidth / 2, cor = null) { 
     let firework = {
         x: x,
         y: window.innerHeight - 10,
         vy: 12 + Math.random() * 3,
         vx: -2 + Math.random() * 4,
-        color: color() + ',' + color() + ',' + color(),
-        lifetime: 70 + Math.round(Math.random() * 70),
+        color: cor ? cor : color(), // Usa 'cor' se fornecido, senão gera uma cor aleatória
+        lifetime: 70,
         trail: [],
         size: 3
     };
@@ -30,7 +30,7 @@ function new_firework(x = window.innerWidth / 2) {
 }
 
 function createExplosion(x, y, color) {
-    const particleCount = 100; 
+    const particleCount = 200; 
     for (let i = 0; i < particleCount; i++) {
         const angle = Math.random() * Math.PI * 2; 
         const speed = Math.random() * 3 + 1;
@@ -40,8 +40,8 @@ function createExplosion(x, y, color) {
             vx: Math.cos(angle) * speed,
             vy: Math.sin(angle) * speed,
             color: color,
-            lifetime: 50, 
-            size: 3 + Math.random() * 2 
+            lifetime: 10 + Math.round(Math.random() * 50), 
+            size: 3 + Math.random() * 2
         });
     }
 }
@@ -106,19 +106,40 @@ function update() {
         particle.size *= 0.96; 
         particle.lifetime--;
 
-        if (particle.lifetime <= 0) {
+        if (particle.lifetime <= 0 || particle.size <= 0.01) {
             particles.splice(index, 1); 
         }
     });
 }
+
+function show() {
+    let angle = 0;
+    let radius = 0;
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    const maxRadius = Math.min(centerX, centerY) * 0.8;
+    const lineY = centerY;
+    const lineWidth = 100;
+    setInterval(() => {
+      const x = centerX - lineWidth / 2 + Math.random() * lineWidth;
+  
+      const y = lineY + Math.random() * 50 - 25;
+  
+      const colorValue = Math.floor((angle % (2 * Math.PI)) / (2 * Math.PI) * 255);
+      const cor = `255,${colorValue},0`; 
+  
+      new_firework(x, cor);
+  
+      angle += 0.1;
+      
+      radius = (radius + 0.5) % (maxRadius / 2);
+    }, 50);
+  
+    animate();
+  }
 
 function animate() {
     display();
     update();
     requestAnimationFrame(animate);
 }
-animate();
-
-window.addEventListener('click', () => {
-    new_firework((canvas.width / 2)-100 + (Math.random() * 200));
-});

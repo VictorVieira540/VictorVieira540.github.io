@@ -13,34 +13,127 @@
             margin: 0;
             padding: 0;
         }
-        
+
         body {
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+            background-color: #000;
         }
-        
+
         img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Garante que a imagem cubra toda a tela sem distorção */
+            object-fit: cover;
             filter: brightness(0.2);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -2;
         }
-        
+
         canvas {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
+            z-index: -1;
+        }
+
+        section {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        #falta {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            font-size: 1.5rem;
+            color: #fff;
+            font-style: italic;
+            text-align: left;
+        }
+
+        #ano {
+            position: absolute;
+            bottom: -40px;
+            right: 0;
+            font-size: 1.2rem;
+            color: #fff;
+            font-style: italic;
+            text-align: right;
+        }
+
+        #cronometro {
+            font-size: 4rem;
+            font-weight: bold;
+            z-index: 1;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            line-height: 1.;
         }
         
+        .legenda {
+            font-size: 0.8rem;
+            width: 100%;
+            text-align: center;
+        }
+
+        .legenda:nth-child(1) {
+            text-align: end;
+        }
+        .legenda:nth-child(3) {
+            text-align: start;
+        }
+        
+        @media (min-width: 768px) {
+            #falta {
+                font-size: 2.5rem;
+                top: -50px;
+            }
+
+            #ano {
+                font-size: 2rem;
+                bottom: -50px;
+            }
+
+            #cronometro {
+                font-size: 5rem;
+                 line-height: 1.1;
+            }
+            /* Ajustando tamanho da legenda para telas maiores */
+            .legenda {
+                font-size: 1.2rem;
+            }
+        }
     </style>
 </head>
-<body>      
-     <img src="fundo.jpeg">
-    <canvas id="canvas">
-    </canvas>
+<body>
+    <img src="fundo.jpeg" alt="Fundo da contagem regressiva">
+    <canvas id="canvas"></canvas>
+    <section>
+        <div id="falta">falta</div>
+        <div id="cronometro">
+            <span id="horas">00</span><span class="separador">:</span><span id="minutos">00</span><span class="separador">:</span><span id="segundos">00</span>
+            <div style="width: 100%; display: flex; justify-content: space-around;">
+                <span class="legenda">horas</span>
+                <span class="legenda">minutos</span>
+                <span class="legenda">segundos</span>
+            </div>
+        </div>
+        <div id="ano">para 2025</div>
+    </section>
+    <script src="conometro.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
