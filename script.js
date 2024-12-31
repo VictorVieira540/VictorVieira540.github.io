@@ -29,7 +29,7 @@ function new_firework(x = null, cor = null) {
   let vy, lifetime, size;
   if (window.innerHeight > 1080) {
     vy = 15 + Math.random() * 8;
-    lifetime = 70 + Math.random() * 50;
+    lifetime = 50 + Math.random() * 75;
     size = 5 + Math.random() * 5;
   } else {
     vy = 12 + Math.random() * 3;
@@ -144,7 +144,7 @@ function update() {
   });
 }
 
-// Função principal para iniciar a animação
+// Função para iniciar a animação, ajustada para performance
 function show() {
   let angle = 0;
   let radius = 0;
@@ -154,24 +154,36 @@ function show() {
   const lineY = centerY;
   const lineWidth = 100;
 
+  // Função para detectar dispositivos mais fracos (estimativa)
+  function isWeakDevice() {
+    // Aqui você pode adicionar mais critérios, como:
+    // - Tipo de CPU/GPU (se possível obter via JS)
+    // - Quantidade de RAM (se possível obter via JS)
+    // - Resolução da tela (resoluções muito altas em dispositivos móveis podem indicar dispositivos mais potentes)
+    return window.innerWidth < 1280; // Exemplo simples: considera telas menores que 768px como dispositivos mais fracos
+  }
+
+  // Intervalo de criação de fogos de artifício, ajustado com base no dispositivo
+  const fireworkInterval = isWeakDevice() ? 200 : 50; // Dispositivos fracos: 200ms, outros: 50ms
+  
   setInterval(() => {
-    //Posição X aleatória dentro de uma faixa
-    const x = centerX - lineWidth / 2 + Math.random() * lineWidth;
+      //Posição X aleatória dentro de uma faixa
+      const x = centerX - lineWidth / 2 + Math.random() * lineWidth;
 
-    // Posição Y ligeiramente variável para um efeito mais natural
-    const y = lineY + Math.random() * 50 - 25;
+      // Posição Y ligeiramente variável para um efeito mais natural
+      const y = lineY + Math.random() * 50 - 25;
 
-    // Variação de cor com base no ângulo
-    const colorValue = Math.floor((angle % (2 * Math.PI)) / (2 * Math.PI) * 255);
-    const cor = `255,${colorValue},0`;
+      // Variação de cor com base no ângulo
+      const colorValue = Math.floor((angle % (2 * Math.PI)) / (2 * Math.PI) * 255);
+      const cor = `255,${colorValue},0`;
 
-    new_firework(x, cor);
+      new_firework(x, cor);
 
-    angle += 0.1;
+      angle += 0.1;
 
-    // Ajusta o raio para controlar a dispersão dos fogos de artifício
-    radius = (radius + 0.5) % (maxRadius / 2);
-  }, window.innerWidth > 768 ? 50 : 100); // Ajusta a frequencia baseado na largura da tela
+      // Ajusta o raio para controlar a dispersão dos fogos de artifício
+      radius = (radius + 0.5) % (maxRadius / 2);
+  }, fireworkInterval);
 
   animate();
 }
