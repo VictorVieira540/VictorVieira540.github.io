@@ -33,7 +33,7 @@ function new_firework(x = null, cor = null) {
     size = 5 + Math.random() * 5;
   } else {
     vy = 12 + Math.random() * 3;
-    lifetime = 70;
+    lifetime = 50;
     size = 3;
   }
 
